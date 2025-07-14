@@ -5,7 +5,6 @@ const { auth } = require('../middleware/auth');
 const { upload, handleUploadError } = require('../middleware/upload');
 const TradeRating = require('../models/TradeRating');
 const TradeRequest = require('../models/TradeRequest');
-const { io } = require('../index');
 
 const router = express.Router();
 
@@ -431,6 +430,7 @@ router.post('/:id/request', auth, async (req, res) => {
       message: req.body.message || ''
     });
     await tradeRequest.save();
+    const { io } = require('../index');
     if (typeof io?.to === 'function') {
       io.to(item.user.toString()).emit('notification:trade_request', {
         type: 'trade_request',
@@ -463,6 +463,7 @@ router.patch('/trade-requests/:requestId', auth, async (req, res) => {
       tradeRequest.status = 'declined';
     }
     await tradeRequest.save();
+    const { io } = require('../index');
     io.to(tradeRequest.recipient.toString()).emit('notification:trade_request_status', {
       type: 'trade_request_status',
       status: tradeRequest.status,
@@ -488,6 +489,7 @@ router.patch('/trade-requests/:requestId/complete', auth, async (req, res) => {
     tradeRequest.item.status = 'traded';
     await tradeRequest.item.save();
     await tradeRequest.save();
+    const { io } = require('../index');
     io.to(tradeRequest.owner.toString()).emit('notification:trade_completed', {
       type: 'trade_completed',
       itemId: tradeRequest.item._id,

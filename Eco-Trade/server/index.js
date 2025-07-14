@@ -17,7 +17,9 @@ const app = express();
 app.use(helmet());
 const allowedOrigins = [
   process.env.CLIENT_URL,
-  'http://localhost:5173'
+  'http://localhost:5173',
+  'https://eco-trade-mern2.vercel.app',
+  'https://eco-trade-mern2.onrender.com'
 ];
 
 app.use(cors({
