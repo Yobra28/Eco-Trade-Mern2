@@ -152,39 +152,23 @@ router.post('/', auth, upload.array('images', 5), handleUploadError, [
   try {
     // Log the incoming request body for debugging
     console.log('REQ.BODY:', req.body);
-    let { location, title, description, category, condition, weight, dimensions, tags, price } = req.body;
+    // Remove location from destructuring
+    let { title, description, category, condition, weight, dimensions, tags, price } = req.body;
 
-    // If location is a string (from FormData), parse it
-    if (typeof location === 'string') {
-      try {
-        location = JSON.parse(location);
-      } catch (e) {
-        // fallback: build location from flat fields
-        location = {
-          address: req.body['location.address'],
-          coordinates: [
-            Number(req.body['location.coordinates[]']) || Number(req.body['location.coordinates[0]']) || 0,
-            Number(req.body['location.coordinates[1]']) || 0
-          ],
-          city: req.body['location.city'],
-          state: req.body['location.state'],
-          zipCode: req.body['location.zipCode']
-        };
-      }
-    }
-
-    // If coordinates are not numbers, parse them
-    if (
-      location &&
-      Array.isArray(location.coordinates) &&
-      location.coordinates.length === 2
-    ) {
-      location.coordinates = [
-        Number(location.coordinates[0]),
-        Number(location.coordinates[1])
-      ];
-    }
-    // Log the parsed location for debugging
+    // Always reconstruct location from flat fields
+    const location = {
+      address: req.body['location.address'],
+      coordinates: [
+        ...(Array.isArray(req.body['location.coordinates[]'])
+          ? req.body['location.coordinates[]']
+          : [req.body['location.coordinates[]']])
+          .map(Number)
+          .filter((v) => !isNaN(v))
+      ],
+      city: req.body['location.city'],
+      state: req.body['location.state'],
+      zipCode: req.body['location.zipCode']
+    };
     console.log('PARSED LOCATION:', location);
 
     // Validate coordinates strictly
