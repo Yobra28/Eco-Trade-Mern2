@@ -150,6 +150,25 @@ router.post('/', auth, upload.array('images', 5), handleUploadError, [
   body('price.type').optional().isIn(['free', 'trade', 'sell'])
 ], async (req, res) => {
   try {
+    // Debug logging
+    console.log('req.body:', req.body);
+    console.log('req.files:', req.files);
+
+    // Reconstruct location object from flat fields if needed
+    let location = req.body.location;
+    if (!location || typeof location === 'string') {
+      location = {
+        address: req.body['location[address]'] || '',
+        coordinates: [
+          Number(req.body['location[coordinates][]']?.[0] || req.body['location[coordinates][0]'] || req.body['location[coordinates]']),
+          Number(req.body['location[coordinates][]']?.[1] || req.body['location[coordinates][1]'])
+        ],
+        city: req.body['location[city]'] || '',
+        state: req.body['location[state]'] || '',
+        zipCode: req.body['location[zipCode]'] || ''
+      };
+    }
+
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ 
@@ -158,7 +177,7 @@ router.post('/', auth, upload.array('images', 5), handleUploadError, [
       });
     }
 
-    let { location, title, description, category, condition, weight, dimensions, tags, price } = req.body;
+    let { title, description, category, condition, weight, dimensions, tags, price } = req.body;
 
     // Parse coordinates as numbers if they are strings
     if (
@@ -207,7 +226,7 @@ router.post('/', auth, upload.array('images', 5), handleUploadError, [
       category,
       condition,
       images,
-      location, // <-- use the updated location object
+      location, // use the reconstructed location
       user: req.user._id,
       weight: weight ? {
         value: parseFloat(weight.value),
