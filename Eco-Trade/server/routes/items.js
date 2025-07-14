@@ -150,9 +150,30 @@ router.post('/', auth, upload.array('images', 5), handleUploadError, [
   body('price.type').optional().isIn(['free', 'trade', 'sell'])
 ], async (req, res) => {
   try {
+    // Log the incoming request body for debugging
+    console.log('REQ.BODY:', req.body);
     let { location, title, description, category, condition, weight, dimensions, tags, price } = req.body;
 
-    // Parse coordinates as numbers if they are strings
+    // If location is a string (from FormData), parse it
+    if (typeof location === 'string') {
+      try {
+        location = JSON.parse(location);
+      } catch (e) {
+        // fallback: build location from flat fields
+        location = {
+          address: req.body['location.address'],
+          coordinates: [
+            Number(req.body['location.coordinates[]']) || Number(req.body['location.coordinates[0]']) || 0,
+            Number(req.body['location.coordinates[1]']) || 0
+          ],
+          city: req.body['location.city'],
+          state: req.body['location.state'],
+          zipCode: req.body['location.zipCode']
+        };
+      }
+    }
+
+    // If coordinates are not numbers, parse them
     if (
       location &&
       Array.isArray(location.coordinates) &&
@@ -163,6 +184,8 @@ router.post('/', auth, upload.array('images', 5), handleUploadError, [
         Number(location.coordinates[1])
       ];
     }
+    // Log the parsed location for debugging
+    console.log('PARSED LOCATION:', location);
 
     // Validate coordinates strictly
     if (
