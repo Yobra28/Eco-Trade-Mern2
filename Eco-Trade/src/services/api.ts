@@ -107,13 +107,28 @@ export const itemsAPI = {
   },
 
   createItem: async (itemData: FormData) => {
-    return apiRequest('/items', {
+    // Use fetch directly for FormData (do not set Content-Type)
+    const url = `${API_BASE_URL}/items`;
+    authToken = localStorage.getItem('ecotrade_token');
+    const response = await fetch(url, {
       method: 'POST',
       headers: {
-        ...(authToken && { Authorization: `Bearer ${authToken}` }),
+        ...(authToken && { Authorization: `Bearer ${authToken}` })
+        // Do not set 'Content-Type' when sending FormData
       },
       body: itemData,
+      credentials: 'include',
     });
+    let data;
+    try {
+      data = await response.json();
+    } catch (e) {
+      throw new Error('Invalid server response');
+    }
+    if (!response.ok) {
+      throw new Error(data.message || 'API request failed');
+    }
+    return data;
   },
 
   updateItem: async (id: string, itemData: FormData) => {
