@@ -155,20 +155,34 @@ router.post('/', auth, upload.array('images', 5), handleUploadError, [
     // Remove location from destructuring
     let { title, description, category, condition, weight, dimensions, tags, price } = req.body;
 
-    // Always reconstruct location from flat fields
-    const location = {
-      address: req.body['location.address'],
-      coordinates: [
-        ...(Array.isArray(req.body['location.coordinates[]'])
-          ? req.body['location.coordinates[]']
-          : [req.body['location.coordinates[]']])
-          .map(Number)
-          .filter((v) => !isNaN(v))
-      ],
-      city: req.body['location.city'],
-      state: req.body['location.state'],
-      zipCode: req.body['location.zipCode']
-    };
+    // Try to get coordinates from either the nested object or flat fields
+    let coords = [];
+    if (req.body.location && req.body.location.coordinates) {
+      coords = req.body.location.coordinates.map(Number).filter((v) => !isNaN(v));
+    } else {
+      let flatCoords = req.body['location.coordinates[]'];
+      if (typeof flatCoords === 'string') flatCoords = [flatCoords];
+      if (Array.isArray(flatCoords) && flatCoords.length > 2) flatCoords = flatCoords.slice(0, 2);
+      coords = (flatCoords || []).map(Number).filter((v) => !isNaN(v));
+    }
+    console.log('RAW COORDS:', req.body.location ? req.body.location.coordinates : req.body['location.coordinates[]']);
+    console.log('PARSED COORDS:', coords);
+
+    const location = req.body.location && req.body.location.address
+      ? {
+          address: req.body.location.address,
+          coordinates: coords,
+          city: req.body.location.city,
+          state: req.body.location.state,
+          zipCode: req.body.location.zipCode
+        }
+      : {
+          address: req.body['location.address'],
+          coordinates: coords,
+          city: req.body['location.city'],
+          state: req.body['location.state'],
+          zipCode: req.body['location.zipCode']
+        };
     console.log('PARSED LOCATION:', location);
 
     // Validate coordinates strictly
