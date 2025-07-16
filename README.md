@@ -1,9 +1,13 @@
 # EcoTrade ♻️
 
 Live Demos:
+
 frontend -- https://eco-trade-mern2.vercel.app
+
 backend --  https://eco-trade-mern2.onrender.com
+
 pitchdect -- https://www.canva.com/design/DAGtJO9g7ag/0HG2Zx18ITbQEXO8tJdLzQ/edit?utm_content=DAGtJO9g7ag&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
+
 live video demo--- https://drive.google.com/file/d/118QvnsuRPneuYVqovrvSrdIXGZgovz3t/view?usp=drive_link
 
 **EcoTrade** is a full-featured MERN stack platform for sustainable trading, recycling, and community-driven waste management. It connects individuals, collectors, and organizations to foster a circular economy and reduce landfill waste.
