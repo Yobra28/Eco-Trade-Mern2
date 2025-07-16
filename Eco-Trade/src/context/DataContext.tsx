@@ -130,12 +130,18 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
     if (newItem.tags && newItem.tags.length > 0) {
       newItem.tags.forEach((tag, i) => formData.append(`tags[${i}]`, tag));
+      formData.append('tags', newItem.tags.join(','));
     }
     // Accept image file(s) from local machine
     if (newItem.images && newItem.images.length > 0) {
       for (const img of newItem.images) {
         formData.append('images', img);
       }
+    }
+
+    // Debug log: print all FormData entries before sending
+    for (let pair of formData.entries()) {
+      console.log(pair[0] + ': ' + pair[1]);
     }
 
     try {
