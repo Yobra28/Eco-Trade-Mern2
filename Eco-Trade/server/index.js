@@ -45,7 +45,10 @@ app.use(cors({
 // });
 // app.use(limiter); // Disabled for development to prevent 429 errors
 
-// Body parsing middleware
+// Routes that need file upload (Multer must handle body parsing for these)
+app.use('/api/items', itemRoutes);
+
+// Body parsing middleware for all other routes
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
@@ -59,7 +62,6 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/ecotrade'
 
 // Routes
 app.use('/api/auth', authRoutes);
-app.use('/api/items', itemRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/chat', chatRoutes);
 
