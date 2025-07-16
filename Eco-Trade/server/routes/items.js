@@ -150,8 +150,9 @@ router.post('/', auth, upload.array('images', 5), handleUploadError, [
   body('price.type').optional().isIn(['free', 'trade', 'sell'])
 ], async (req, res) => {
   try {
-    // Log the incoming request body for debugging
-    console.log('REQ.BODY:', req.body);
+    // Log the full request body and files for debugging
+    console.log('FULL REQ.BODY:', req.body);
+    console.log('REQ.FILES:', req.files);
     // Remove location from destructuring
     let { title, description, category, condition, weight, dimensions, tags, price } = req.body;
 
