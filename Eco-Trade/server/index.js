@@ -17,7 +17,8 @@ const app = express();
 app.use(helmet());
 const allowedOrigins = [
   process.env.CLIENT_URL,
-  'https://eco-trade-mern2-dgt8.vercel.app'
+  'https://eco-trade-mern2-dgt8.vercel.app',
+  'https://eco-trade-mern2-dgt8-git-master-brians-projects-fab8afb1.vercel.app'
 ];
 
 app.use(cors({
