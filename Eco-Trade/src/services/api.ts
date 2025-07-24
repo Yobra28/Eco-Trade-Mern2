@@ -1,8 +1,6 @@
 const API_BASE_URL =
   import.meta.env.VITE_API_URL ||
-  (window.location.hostname === 'localhost'
-    ? 'http://localhost:5000/api'
-    : 'https://eco-trade-mern2.onrender.com/api');
+  'https://eco-trade-mern2-1.onrender.com/api';
 
 // Auth token management
 let authToken: string | null = localStorage.getItem('ecotrade_token');
