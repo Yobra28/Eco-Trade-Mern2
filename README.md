@@ -1,10 +1,27 @@
 # EcoTrade ♻️
+images of the site 
+<img width="1333" height="768" alt="image" src="https://github.com/user-attachments/assets/744cf3f4-f509-4e4a-a3cb-ab38aad6ebac" />
+<img width="1360" height="736" alt="image" src="https://github.com/user-attachments/assets/e2a4bc05-6025-4995-95cc-a618a522c09d" />
+<img width="1360" height="735" alt="image" src="https://github.com/user-attachments/assets/620c7fb3-a750-4f25-8f59-6c943637e5ed" />
+<img width="1360" height="768" alt="image" src="https://github.com/user-attachments/assets/db524c08-3253-4134-a242-a4f885fdded8" />
+<img width="1360" height="693" alt="image" src="https://github.com/user-attachments/assets/0573b60c-a375-4268-a245-1484737b7c6e" />
+<img width="1360" height="734" alt="image" src="https://github.com/user-attachments/assets/fb8fa5b8-5913-4299-9fe0-7b24fca28bb9" />
+<img width="1359" height="734" alt="image" src="https://github.com/user-attachments/assets/912bd7b1-bc18-4ab6-9e60-2ec12a2eb0d3" />
+<img width="1360" height="713" alt="image" src="https://github.com/user-attachments/assets/6af37c3c-e0ee-4b43-9568-ddd7b0e520e5" />
+
+
+
+
+
+
+
+
 
 Live Demos:
 
-frontend -- https://eco-trade-mern2.vercel.app
+frontend -- https://eco-trade-mern2-dgt8.vercel.app/
 
-backend --  https://eco-trade-mern2.onrender.com
+backend --  https://eco-trade-mern2-1.onrender.com
 
 pitchdect -- https://www.canva.com/design/DAGtJO9g7ag/0HG2Zx18ITbQEXO8tJdLzQ/edit?utm_content=DAGtJO9g7ag&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
 
