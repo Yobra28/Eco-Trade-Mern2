@@ -17,9 +17,7 @@ const app = express();
 app.use(helmet());
 const allowedOrigins = [
   process.env.CLIENT_URL,
-  'http://localhost:5173',
-  'https://eco-trade-mern2.vercel.app',
-  'https://eco-trade-mern2.onrender.com'
+  'https://eco-trade-mern2-dgt8.vercel.app'
 ];
 
 app.use(cors({
@@ -27,8 +25,7 @@ app.use(cors({
     // allow requests with no origin (like mobile apps, curl, etc.)
     if (!origin) return callback(null, true);
     if (
-      allowedOrigins.includes(origin) ||
-      origin.endsWith('.vercel.app')
+      allowedOrigins.includes(origin)
     ) {
       return callback(null, true);
     } else {
@@ -93,7 +90,7 @@ const server = app.listen(PORT, () => {
 // Socket.io setup for real-time chat
 const io = require('socket.io')(server, {
   cors: {
-    origin: process.env.CLIENT_URL || 'http://localhost:5173',
+    origin: process.env.CLIENT_URL || 'https://eco-trade-mern2-dgt8.vercel.app',
     methods: ['GET', 'POST']
   }
 });
